@@ -9,7 +9,7 @@ sturges  = (sampleSize) => {
 }
 // fetch stuff from arquivo (mandar pro DOM dps)
 try {
-    data = fs.readFileSync('/home/yogi/Documents/js/statistics/statistic/table.txt', 'utf-8');
+    data = fs.readFileSync('/home/yogi/Documents/js/estatistica/statistic/table.txt', 'utf-8');
     
 
 } catch (error) {
@@ -36,7 +36,7 @@ computeStuff =  (str) => {
             matches.forEach((item, y) => {
         
             const parts = item.split(' ').map(num => Number (num));
-            table.i[y] = { li: parts[0], Li: parts[1], f: parts[2]}; // limite inferior/superior da classe e frequencia simples
+            table.i[y] = { li: parts[0], Li: parts[1], f: parseInt(parts[2])}; // limite inferior/superior da classe e frequencia simples
             table.i[y].x = Math.floor((table.i[y].li+ table.i[y].Li)/2) // ponto medio da classe x 
 
         });
@@ -57,25 +57,26 @@ computeStuff =  (str) => {
 
                     largestFrequency = actualItem.f;
                     table.modalClass.klass = table.i[klass];
-                    table.modalClass.d1
-                    table.modalClass.d2
-                    console.log(`fr classe modal: ${table.modalClass.klass.f} | `) // < --- encontrar as frequencias anterior/posterior
+                    table.modalClass.index = klass;
+
                 } else { 
                     largestFrequency = largestFrequency;
                 }
                 count++;
             }
             // define modal stuff
-            let tempModal = table.modalClass.klass;
+            let tempModal = table.modalClass.klass, modalIndex = parseInt(table.modalClass.index);
             table.modalClass.l_asterisk = tempModal.li;
             table.modalClass.L_asterisk = tempModal.Li; 
+            table.modalClass.d1 = (table.modalClass.klass.f - table.i[modalIndex-1].f)
+            table.modalClass.d2 = (table.modalClass.klass.f - table.i[modalIndex+1].f)
             //
             table.Mob =  (table.modalClass.l_asterisk + table.modalClass.L_asterisk)/2; // moda da classe bruta
-            table.Mcz = (table.modalClass.l_asterisk + ((table.modalClass.d1/(table.modalClass.d1+table.modalClass.d2))))
             table.n = frequenciesSum; // tamanho da amostra (40 nesse caso)
             table.h = table.i[0].Li - table.i[0].li; // amplitude de
-            table.Efr = table.Exifi = 0; // soma de frequencias relativas
 
+            table.Efr = table.Exifi = 0; // soma de frequencias relativas
+            table.Mcz = (table.modalClass.l_asterisk + ((table.modalClass.d1 / (table.modalClass.d1+table.modalClass.d2))*table.h)); // moda de czuber
             let currentAccumulatedFrequency = 0;
 
             for (klass in table.i) {
@@ -106,6 +107,7 @@ computeStuff =  (str) => {
                 if (actualItem.F>halfSampleSize) {
                    // console.table(actualItem);
                     table.medianClass.klass = actualItem;
+                    console.log(`Freq classe modal atual: ${actualItem.f}`);
                     table.medianClass.FAA = table.i[item-1].F;
                     break
                 }
