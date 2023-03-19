@@ -13,3 +13,8 @@
 62 66 8
 66 70 5
 70 74 3
+
+
+array com ids
+    array com nomes dos ids dos elementos
+        lenght comparison batendo 

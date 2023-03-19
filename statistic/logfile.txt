@@ -1,6 +1,22 @@
 Freq classe modal atual: 71
 {
-  i: {
+  generic: {
+    n: 267,
+    k: 7,
+    Mob: 103.5,
+    Mcz: 102.3157894736842,
+    x_bar: 101.61797752808988
+  },
+  modal: {
+    index: '3',
+    l_asterisk: 99,
+    L_asterisk: 108,
+    d1: 14,
+    d2: 24,
+    h_asterisk: 9
+  },
+  cmediana: { FAA: 110, l_asterisk: 99, h_asterisk: 9 },
+  frequencies: {
     '0': {
       li: 72,
       Li: 81,
@@ -71,46 +87,5 @@ Freq classe modal atual: 71
       Fr: 1,
       xifi: 1560
     }
-  },
-  modalClass: {
-    klass: {
-      li: 99,
-      Li: 108,
-      f: 71,
-      x: 103,
-      fr: 0.26591760299625467,
-      F: 181,
-      Fr: 0.6779026217228464,
-      xifi: 7313
-    },
-    index: '3',
-    l_asterisk: 99,
-    L_asterisk: 108,
-    d1: 14,
-    d2: 24
-  },
-  Mob: 103.5,
-  n: 267,
-  h: 9,
-  Exifi: 27132,
-  Efr: 1,
-  Mcz: 102.3157894736842,
-  x_bar: 101.61797752808988,
-  medianClass: {
-    klass: {
-      li: 99,
-      Li: 108,
-      f: 71,
-      x: 103,
-      fr: 0.26591760299625467,
-      F: 181,
-      Fr: 0.6779026217228464,
-      xifi: 7313
-    },
-    FAA: 110,
-    l_asterisk: 99,
-    f_asterisk: 71,
-    h_asterisk: 9
-  },
-  Md: 101.97887323943662
+  }
 }

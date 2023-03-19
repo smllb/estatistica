@@ -11,18 +11,16 @@
 				<h1>Calculadora de estatistica simples</h1>
 			</div>
 			<div class="input-area">
-				<form onsubmit="computeData(event)">
 				<h3>Insira uma lista de dados brutos</h3>
 				<input type="text" id="input-field">
-				<button type="submit">Inserir dados</button>
-				</form>
+				<button type="submit" onclick="computeStuff()">Inserir dados</button>
 			</div>
 		</div>
 		<div class="middle">
 			<div class="generic-stuff">
 			<table>	
 				<tr>
-				<th>Dados</th>
+				<th>Dados Genéricos</th>
 				<th>Valor</th>
 				</tr>
 				<tr id="totald">
@@ -31,37 +29,59 @@
 				</tr>
 				<tr id="media">
 					<th>Media</th>
-					
 				</tr>
-				<tr id="moda">
+				<tr id="modaBruta">
 					<th>Moda (Mo)</th>
 					
 				</tr>
-				<tr id="mediana">
+				<tr id="modaCzuber">
 					<th>Mediana </th>
 					
 				</tr>
-				<tr id="moda">
+				<tr id="mediana">
 					<th>Moda (Mo)</th>
 					
 				</tr>
-				<tr id="moda">
-					<th>Moda (Mo)</th>
+				<tr id="h">
+					<th>Amplitude de classe (Mo)</th>
 					
 				</tr>
-				<tr id="moda">
-					<th>Moda (Mo)</th>
-					
-				</tr>
-			</table>	
+			</table>
+			</div>
+			<div class="modal-area">
+				<table id="classe-modal">
+					<tr>
+						<th>Classe modal</th>
+						<th>Valores</th>
+					</tr>
+				</table>
+			</div>
+			<div class="mediana-area">
+				<table id="classe-mediana">
+					<tr>
+						<th>Classe mediana</th>
+						<th>Valores</th>
+					</tr>
+				</table>
 			</div>
 			<div class="frequency-area">
-			
+				<table id="frequencias">
+					<tr>
+						<th id="classes">Classe</th>
+						<th id="fi">fi</th>
+						<th id="xi">xi</th>
+						<th id="fri">fri</th>
+						<th id="Fi">Fi</th>
+						<th id="Fri">Fri</th>
+					</tr>
+
+				</table>
 			</div>
 		</div>
 		<div class="bottom">
 			<p>Desenvolvido pra fins estudantis.</p>
 		</div>
 	</div>
+	<script src="statistic/readtable.js"></script>
 </body>
 </html>

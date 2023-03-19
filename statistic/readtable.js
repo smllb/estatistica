@@ -17,10 +17,14 @@ try {
 
 }
 
-computeStuff =  (str) => {
+computeStuff =  () => {
    
+    let inputFromUser = document.getElementById('input-field').value;
+    console.log(inputFromUser);
+
+    const str = data;
     const regex = /(\d+)\s+(\d+)\s+(\d+)/g;
-    const string = str;
+    const string = inputFromUser;
 
     // initialize empty table object
     let table = {
@@ -54,7 +58,7 @@ computeStuff =  (str) => {
                 frequenciesSum += actualItem.f; // total = tamanho da amostra
                 // find classe modal (classe com maior frequência)
                 if (actualItem.f > largestFrequency) {
-
+                    
                     largestFrequency = actualItem.f;
                     table.modalClass.klass = table.i[klass];
                     table.modalClass.index = klass;
@@ -68,15 +72,21 @@ computeStuff =  (str) => {
             let tempModal = table.modalClass.klass, modalIndex = parseInt(table.modalClass.index);
             table.modalClass.l_asterisk = tempModal.li;
             table.modalClass.L_asterisk = tempModal.Li; 
-            table.modalClass.d1 = (table.modalClass.klass.f - table.i[modalIndex-1].f)
-            table.modalClass.d2 = (table.modalClass.klass.f - table.i[modalIndex+1].f)
             //
             table.Mob =  (table.modalClass.l_asterisk + table.modalClass.L_asterisk)/2; // moda da classe bruta
             table.n = frequenciesSum; // tamanho da amostra (40 nesse caso)
             table.h = table.i[0].Li - table.i[0].li; // amplitude de
 
+            if (typeof(table.i[modalIndex-1]) != "undefined") {
+                table.modalClass.d1 = (table.modalClass.klass.f - table.i[modalIndex-1].f)
+                table.modalClass.d2 = (table.modalClass.klass.f - table.i[modalIndex+1].f)
+                table.Mcz = (table.modalClass.l_asterisk + ((table.modalClass.d1 / (table.modalClass.d1+table.modalClass.d2))*table.h)); // moda de czuber
+
+            } else {
+                table.Mcz = 'nulo'
+            }
+//
             table.Efr = table.Exifi = 0; // soma de frequencias relativas
-            table.Mcz = (table.modalClass.l_asterisk + ((table.modalClass.d1 / (table.modalClass.d1+table.modalClass.d2))*table.h)); // moda de czuber
             let currentAccumulatedFrequency = 0;
 
             for (klass in table.i) {
@@ -106,7 +116,7 @@ computeStuff =  (str) => {
 
                 if (actualItem.F>halfSampleSize) {
                    // console.table(actualItem);
-                    table.medianClass.klass = actualItem;
+                             table.medianClass.klass = actualItem;
                     console.log(`Freq classe modal atual: ${actualItem.f}`);
                     table.medianClass.FAA = table.i[item-1].F;
                     break
@@ -120,13 +130,57 @@ computeStuff =  (str) => {
             table.medianClass.f_asterisk = medianTemp.f;
             table.medianClass.h_asterisk = table.h;
 
-            // define median (Md)  = l_ask + ((( Σfi/2 ) -FAA ) * h_ask ) / f_ask
             table.Md = table.medianClass.l_asterisk + ((((table.n/2)-table.medianClass.FAA)*table.medianClass.h_asterisk)/table.medianClass.f_asterisk);
 
-       
       } 
       //console.log(table); 
-      console.log(table)
+     // console.log(table)
+      return table;
 }
 
-computeStuff(data); 
+UpdateDomTables = (obj) => {
+
+    middle = document.getElementById('middle')
+    divsOnMiddle = generalContainer.querySelectorAll('div');
+
+    divsOnMiddle.forEach((item, i) => {
+        if (i==2) {
+            
+        } else {
+            rowsOnDiv == document.querySelectorAll('table tr')
+            console.log()
+         }
+        
+    });
+}
+
+
+let table = computeStuff(data);
+let statisticsObj = {
+    generic: {
+        n: table.n,
+        k: Object.keys(table.i).length,
+        Mob: table.Mob,
+        Mcz: table.Mcz,
+        x_bar: table.x_bar,
+    },
+    modal : { // dados classe modal
+        index: table.modalClass.index,
+        l_asterisk: table.modalClass.l_asterisk,
+        L_asterisk: table.modalClass.L_asterisk,
+        d1: table.modalClass.d1,
+        d2: table.modalClass.d2,
+        h_asterisk: table.modalClass.klass.Li - table.modalClass.klass.li
+    },
+    cmediana: {
+        FAA: table.medianClass.FAA,
+        l_asterisk: table.medianClass.l_asterisk,
+        h_asterisk: table.medianClass.h_asterisk
+    },
+    frequencies: {}
+
+}  
+
+// // frequencias
+statisticsObj.frequencies = table.i;
+console.log(statisticsObj)
