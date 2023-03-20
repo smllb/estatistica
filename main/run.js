@@ -12,5 +12,7 @@ buttonsMenu.addEventListener('click', (event) => {
 
 const computeSampleProvidedFromUser = () => {
     let inputFromUser = getInputFromUser();
+
     computeInput(inputFromUser);
+    
 }

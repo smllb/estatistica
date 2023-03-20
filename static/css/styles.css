@@ -53,7 +53,7 @@ table, th, td {
                          "middle";
     grid-template-rows: minmax(10vh, auto) minmax(auto, 1fr);
     grid-template-columns: 100vw;
-    height: 100vh; 
+    height: minmax(100vh, auto); 
     background-color: #F7F7F7;
   }
   .top {
