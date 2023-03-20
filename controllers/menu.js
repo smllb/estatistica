@@ -1,6 +1,8 @@
 const buttonsMenu = document.getElementById('type-selector');
 let selectedMode = null;
 let hasInputFromUser = false;
+let classesWithIntervalRegex = /(\d+)\s+(\d+)\s+(\d+)/;
+let bruteSampleRegex = /(\d+(?:,\d+){1,})$/g
 
 const retrieveClickedButtonId = (event) => {
     if (event.target.tagName === 'BUTTON') {
@@ -15,17 +17,6 @@ displayMessageOnAnnouncer = (message) => {
     announcer.textContent = `${message}`;
 
 }
-buttonsMenu.addEventListener('click', (event) => {
-    let clickedButtonId;
-    
-    if (!hasInputFromUser) {
-        clickedButtonId = retrieveClickedButtonId(event);
-        updateInputFieldSizeAndSelectedMode(clickedButtonId)
-        console.log(event)
-        
-    }
-    
-})
 
 // Menu buttons manipulation
 const updateButtons = (event, parentElement) => {
@@ -77,29 +68,51 @@ const updateElementVisibiliy = (action, element) => {
     }
     
 }
+
+const evaluateInputFromUser = (userInput, selectedMode) => {
+
+    switch (selectedMode) {
+        case 'dadosBrutos':
+            return bruteSampleRegex.test(userInput);
+        case 'classeIntervalo':
+            return classesWithIntervalRegex.test(userInput);
+        default:
+            return false;
+    }
+
+}
 const getInputFromUser = () => {
-   
-   if (selectedMode === null) {
-    displayMessageOnAnnouncer('Selecione um modo de inserção de dados.')
-   } else {
+
     let inputElement = document.getElementById('input');
     let inputFromUser = inputElement.value; 
-    hasInputFromUser = true;
- 
-    updateElementVisibiliy('hide', 'input');
-    updateElementVisibiliy('hide', 'input-button');
-    console.log('user input was: '+ inputFromUser + '\n updating hasInputFromUser to '+ hasInputFromUser ); 
-    displayMessageOnAnnouncer('')
-    return inputFromUser;
+
+
+    
+   if (selectedMode === null) { // checks if user has selected anything
+    displayMessageOnAnnouncer('Selecione um modo de inserção de dados.')
+   } else if (inputFromUser) {
+        if (evaluateInputFromUser(inputFromUser, selectedMode)) {
+
+            hasInputFromUser = true;
+            //hide input stuff
+            updateElementVisibiliy('hide', 'input');
+            updateElementVisibiliy('hide', 'input-button');
+            console.log('user input was: '+ inputFromUser + '\n updating hasInputFromUser to '+ hasInputFromUser ); 
+            displayMessageOnAnnouncer('Verifique os resultados abaixo.')
+            return inputFromUser;
+        } else {
+
+            displayMessageOnAnnouncer('Amostra invalida, digite novamente.')
+
+        }
+   } else {
+    displayMessageOnAnnouncer('É necessário inserir dados no campo para continuar.')
    }
 
 }
 
 // send stuff 
-const computeSampleProvidedFromUser = () => {
-    let inputFromUser = getInputFromUser();
 
-}
 
 // ignore
 resetHasInputFromUser = () => {
