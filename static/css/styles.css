@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+table, th, td {
+    border:1px solid black;
+  }
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    margin: 5px;
+    border: 2px solid #ffffff00;
+  }
+  .selected {
+    /* Selected button styles */
+    background-color: #f00 !important;
+    border: 2px solid #fff;
+  }
+
+  button:hover {
+    background-color: #0062cc;
+  }
+
+  .hidden {
+    display: none;
+   
+  }
+
+  .input-field {
+
+    resize: none;
+    text-align: center;
+    font-size: 16px;
+  }
+.text-area {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+}
+  .general-container {
+    display: grid;
+    grid-template-areas: "top"
+                         "middle";
+    grid-template-rows: minmax(10vh, auto) minmax(auto, 1fr);
+    grid-template-columns: 100vw;
+    height: 100vh;
+  }
+  .top {
+    grid-area: top;
+    background-color: red;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    
+  }
+  .middle {
+    grid-area: middle;
+    background-color: blue;
+    
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 10px;
+    
+  }
+  .input-area {
+    padding: 20px;
+    display: flex;
+  }
+  .buttons-menu.disabled-buttons button {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  

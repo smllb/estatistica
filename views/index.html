@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="../static/css/styles.css">
 	<title>Estatistica</title>
 </head>
 <body>
 	<div class="general-container">
-		<div class="top">
+		<div class="top center">
 			<div class="text-area">
 				<h1>Calculadora de estatistica simples</h1>
+				<h3 id="announcer">Selecione o método de inserção de dados</h3>
+
 			</div>
-			<div class="input-area">
-				<h3>Insira uma lista de dados brutos</h3>
-				<input type="text" id="input-field">
-				<button type="submit" onclick="computeStuff()">Inserir dados</button>
+			<div class="buttons-area">
+				<div class="buttons-menu">
+					<div class="type-selection-area" id="type-selector">
+						<button type="button" id="dados-brutos">Dados Brutos</button>
+						<button type="button" id="classe-intervalo">Classes com intervalo</button>
+						<button type="button" id="classe-sintervalo">Classes sem intervalo</button>
+					</div>
+				</div>
 			</div>
+			<textarea id="input"  class="input-field" rows="6" cols="20"></textarea>
+			<button type="button" class="input-button" id="input-button" onclick="computeSampleProvidedFromUser()">Enviar Dados</button>
 		</div>
-		<div class="middle">
+		<div class="middle center">
+			<div class="table-container ">
 			<div class="generic-stuff">
 			<table>	
 				<tr>
@@ -78,10 +87,9 @@
 				</table>
 			</div>
 		</div>
-		<div class="bottom">
-			<p>Desenvolvido pra fins estudantis.</p>
 		</div>
 	</div>
-	<script src="statistic/readtable.js"></script>
+	<script src="../controllers/readtable.js"></script>
+	<script src="../controllers/menu.js"></script>
 </body>
 </html>
