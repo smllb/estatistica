@@ -11,3 +11,15 @@ let freq = {
 freq.frequencies = 0;
 freq.frequencies++
 console.log(freq.frequencies);
+
+console.log('split')
+const arr = [4,9,11];
+const indexesToDelete = [0,1]; // indexes to be deleted
+indexesToDelete.sort((a, b) => b - a); // sort in descending order
+
+console.log(indexesToDelete);
+indexesToDelete.forEach(index => {
+  arr.splice(index, 1);
+});
+
+console.log(arr); // [1, 3, 5]

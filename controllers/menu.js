@@ -1,7 +1,7 @@
 const buttonsMenu = document.getElementById('type-selector');
 let selectedMode = null;
 let hasInputFromUser = false;
-let classesWithIntervalRegex = /(\d+)\s+(\d+)\s+(\d+)/;
+let classesWithIntervalRegex = /(\d+)\s+(\d+)\s+(\d+)/g;
 let bruteSampleRegex = /(\d+(?:,\d+){1,})$/g
 
 const retrieveClickedButtonId = (event) => {
