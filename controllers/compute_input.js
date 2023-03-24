@@ -9,6 +9,7 @@ let computedDataFromSample = {
 
 let genericData = computedDataFromSample.genericData;
 let frequencies = computedDataFromSample.frequencies;
+let medianClasses = computedDataFromSample.medianClasses;
 
 const returnLog = (x) => {
     return Math.log(x) / Math.LN10
@@ -181,7 +182,17 @@ const feedLimitsOfClass = () => {
     }
     
 }
+// find classe mediana
+const findClasseMediana = () => {
+    for (klass in frequencies.i) {
+        halfFrequency = genericDat.n/2;
+        actualClass = frequencies.i[klass];
+        if (actualClass.F > halfFrequency) {
+            medianClasses[klass] = actualClass;
+        }
+    }
 
+}
 const generateClassesAndFrequencies = () => {
 
     feedLimitsOfClass();
