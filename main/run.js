@@ -10,8 +10,11 @@ buttonsMenu.addEventListener('click', (event) => {
     
 })
 
-const computeSampleProvidedFromUser = () => {
+const computeSampleProvidedFromUserAndDisplayResults = () => {
     let inputFromUser = getInputFromUser();
     computeInput(inputFromUser);
-    
+    feedFrequencyTable();
 }
+
+
+

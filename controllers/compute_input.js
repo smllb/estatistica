@@ -9,6 +9,8 @@ let computedDataFromSample = {
 
 let genericData = computedDataFromSample.genericData;
 let frequencies = computedDataFromSample.frequencies;
+let medianClasses = computedDataFromSample.medianClasses;
+let modClass = computedDataFromSample.modalClasses;
 
 const returnLog = (x) => {
     return Math.log(x) / Math.LN10
@@ -16,12 +18,6 @@ const returnLog = (x) => {
 
 const sturges  = (sampleSize) => {
     return returnLog(sampleSize)*3.3 + 1 
-}
-
-const computeInput = (userInput) => {
-    feedInitialDataToFrequencies(userInput)
-    feedGenericFrequencyDataToFrequencies();
-    findModalClassFromFrequenciesTable();
 }
 
 const feedInitialDataToFrequencies = (userInput) => {
@@ -46,6 +42,7 @@ const feedInitialDataToFrequencies = (userInput) => {
 
             genericData.k = Object.keys(frequencies.i).length;
             genericData.n = findNFromFrequenciesTable();
+            genericData.h = frequencies.i[0].Li-frequencies.i[0].li;
         break;
     }
 }
@@ -58,12 +55,12 @@ const feedGenericFrequencyDataToFrequencies = () => {
         
         actualClass = frequencies.i[klass];
         actualClass.x = (actualClass.Li+actualClass.li)/2; // Ponto médio da classe
-        EXiFi += actualClass.x; // xi.fi para media aritmetica
+        EXiFi += actualClass.x*actualClass.f; // xi.fi para media aritmetica
         actualClass.fr = actualClass.f/genericData.n; // Frequencia simples acumulada
         actualClass.F = currentAccumulatedFrequency; // Frequencia relativa
         actualClass.Fr = actualClass.F/genericData.n; // Frequencia relativa acumulada
     }
-
+    
     genericData.xbar = EXiFi/genericData.n; // media aritmetica Σxi.fi/Σfi (Σfi = n)
 
 }
@@ -84,7 +81,8 @@ const populateCandidatesArrayAndFindBiggestFrequency = () => {
 
             let actualClassData = {
                 class: actualClass,
-                f: actualClass.f
+                f: actualClass.f,
+                index: klass
             }
             modalClasses.classes.push(actualClassData); 
         }
@@ -101,8 +99,6 @@ const deleteLesserCandidatesFromCandidatesArray = () => {
         }
     })
     indexesToBeRemoved.sort((a, b) => b - a); // sort in descending order
-
-    console.log('classes current arr ' + modalClasses.classes.map(obj => `${obj.f}`).join(', '));
     //remove them from array
     indexesToBeRemoved.forEach(index => {
         modalClasses.classes.splice(index, 1)
@@ -114,13 +110,39 @@ const populateModalClassesToMainObject = () => {
 
     }) 
 }
+
+const checkCzuberSuitabilityAndAssignData = () => {
+    let modalRef = modClass[0].item;
+    let modalIndex = modalRef.index;
+
+    if (modalIndex >=1) {
+        modalRef.d1 = modalRef.class.f - frequencies.i[parseInt(modalIndex)-1].f;
+        modalRef.d2 = modalRef.class.f - frequencies.i[parseInt(modalIndex)+1].f;
+
+        return true
+    }
+
+    return false
+
+}
+
+const findModaFromCzuberLaw = () => {
+    let modc = modClass[0].item;
+    const isAbleToPerformThroughCzuber = checkCzuberSuitabilityAndAssignData();
+
+    if (isAbleToPerformThroughCzuber) {
+        genericData.MoCzuber = modc.class.li + ((modc.d1/(modc.d1+modc.d2))*genericData.h);
+    
+    }
+}
+
 const findModalClassFromFrequenciesTable = () => {
     
     populateCandidatesArrayAndFindBiggestFrequency()
     deleteLesserCandidatesFromCandidatesArray()
     populateModalClassesToMainObject()
-
-    console.log('FInaL MODALCLASSES.CLASSES ' + JSON.stringify(modalClasses.classes))
+    findModaFromCzuberLaw();
+    genericData.Mo = (modClass[0].item.class.li+modClass[0].item.class.Li)/2;
 
 }
 const findNFromFrequenciesTable = () => { 
@@ -197,7 +219,39 @@ const feedFrequenciesTable = (matchesFromUserInput) => { // function to be used 
     });
 
 }
+const findMedianClass = () => {
 
+    let halfSizeOfSample = genericData.n/2;
+    let medianClassCounter = -1;
+    let temporaryClassFrequenciesArr = [];
+    //create temporary array with frequency/class index
+    for (let klass in frequencies.i) {
+        let actualClass = frequencies.i[klass];
+        let temporaryClass = {
+            F: actualClass.F,
+            index: klass
+        };
+        temporaryClassFrequenciesArr[klass] = temporaryClass;
+    
+    }
+    temporaryClassFrequenciesArr.sort((a,b) => a.F - b.F);
+    for (let y = 0; y < temporaryClassFrequenciesArr.length; y++) {
+        if (temporaryClassFrequenciesArr[y].F > halfSizeOfSample) {
+            medianClasses[++medianClassCounter] = frequencies.i[y];
+            medianClasses[medianClassCounter].FAA = frequencies.i[--y].F; //   freqüência acumulada da classe anterior à classe mediana
+            medianClasses[medianClassCounter].h = medianClasses[medianClassCounter].Li-medianClasses[medianClassCounter].li;
+            break
+        }
+    }
+
+}
+
+const calculateMediana = () => {
+    // Md = l* + [(- FAA ) x h*] / f*
+    let mdc = medianClasses[0];
+    genericData.md = mdc.li + ((((genericData.n/2) - mdc.FAA ) * mdc.h)/ mdc.f);
+
+} 
 
 const findPontoMedioClasse = (Li, li) => {
     return Math.floor((Li + li)/2);
@@ -209,3 +263,13 @@ const findAmplitudeTotalAMostra = (sample) => {
     return AA;
 
 }
+
+const computeInput = (userInput) => {
+    feedInitialDataToFrequencies(userInput)
+    feedGenericFrequencyDataToFrequencies();
+    findModalClassFromFrequenciesTable();
+    findMedianClass();
+    calculateMediana();
+
+}
+
