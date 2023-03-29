@@ -12,6 +12,7 @@ let frequencies = computedDataFromSample.frequencies;
 let medianClasses = computedDataFromSample.medianClasses;
 let modClass = computedDataFromSample.modalClasses;
 
+
 const returnLog = (x) => {
     return Math.log(x) / Math.LN10
 }
