@@ -97,6 +97,11 @@ const getInputFromUser = () => {
             //hide input stuff
             updateElementVisibiliy('hide', 'input');
             updateElementVisibiliy('hide', 'input-button');
+            //show results
+            updateElementVisibiliy('show', 'generic')
+            updateElementVisibiliy('show', 'modal')
+            updateElementVisibiliy('show', 'mediana')
+            updateElementVisibiliy('show', 'frequencies')
             console.log('user input was: '+ inputFromUser + '\n updating hasInputFromUser to '+ hasInputFromUser ); 
             displayMessageOnAnnouncer('Verifique os resultados abaixo.')
             return inputFromUser;

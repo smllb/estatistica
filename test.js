@@ -22,4 +22,12 @@ indexesToDelete.forEach(index => {
   arr.splice(index, 1);
 });
 
-console.log(arr); // [1, 3, 5]
+//console.log(arr); // [1, 3, 5]
+
+console.log('0.0.3232233223333333333333333')
+console.log(Math.round(0,));
+
+
+const num = 	0.064516
+const roundedNum = (+num.toFixed(4)); // add a plus sign to convert string to number
+console.log(roundedNum); // output: 0.0323

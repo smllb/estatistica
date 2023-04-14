@@ -1,5 +1,8 @@
 let computedDataFromSample = {
-    genericData: {},
+    genericData: {
+        quartis: [],
+        decis: []
+    },
     modalClasses: {},
     medianClasses: {},
     frequencies: {
@@ -48,21 +51,44 @@ const feedInitialDataToFrequencies = (userInput) => {
     }
 }
 const feedGenericFrequencyDataToFrequencies = () => {
+
     let currentAccumulatedFrequency = 0;
-    let EXiFi = 0; // soma de pontos medios de cada classe
+    let exifi = 0; // soma de pontos medios de cada classe
+    let exix = 0;
+    let exix2 = 0;
+    let exix2fi = 0;
     for (klass in frequencies.i) {
         actualClass = frequencies.i[klass];
         currentAccumulatedFrequency += actualClass.f;
-        
-        actualClass = frequencies.i[klass];
         actualClass.x = (actualClass.Li+actualClass.li)/2; // Ponto médio da classe
-        EXiFi += actualClass.x*actualClass.f; // xi.fi para media aritmetica
-        actualClass.fr = actualClass.f/genericData.n; // Frequencia simples acumulada
+        actualClass.xifi = actualClass.x*actualClass.f; // frequencia * ponto médio da classe
+        exifi += actualClass.x*actualClass.f; // xi.fi para media aritmetica
+        
+
+        actualClass.fr = +(actualClass.f/genericData.n).toFixed(4); // Frequencia simples acumulada
         actualClass.F = currentAccumulatedFrequency; // Frequencia relativa
-        actualClass.Fr = actualClass.F/genericData.n; // Frequencia relativa acumulada
+        actualClass.Fr = +(actualClass.F/genericData.n).toFixed(4); // Frequencia relativa acumulada
+        actualClass.i = +klass+1;
+        //console.log(`àt class ${actualClass.i} sum of Li ${actualClass.Li} + li ${actualClass.li}: ${actualClass.Li+actualClass.li} | after /2 ${(actualClass.Li+actualClass.li)/2}`);
+
     }
+    genericData.exifi = exifi;
+    genericData.xbar = +(exifi/genericData.n).toFixed(2); // media aritmetica Σxi.fi/Σfi (Σfi = n)
     
-    genericData.xbar = EXiFi/genericData.n; // media aritmetica Σxi.fi/Σfi (Σfi = n)
+
+    for (klass in frequencies.i) {
+        actualClass = frequencies.i[klass];
+        
+        actualClass.xix = +(actualClass.x - genericData.xbar).toFixed(2);     exix+= actualClass.xix; // x - xbar
+        actualClass.xix2 = +(Math.pow(actualClass.xix, 2)).toFixed(2);        exix2+= actualClass.xix2; // x - xbar ^ 2
+        actualClass.xix2fi = +(actualClass.xix2*actualClass.f).toFixed(2);    exix2fi += actualClass.xix2fi; // (x - xbar )^2)*f
+
+
+    }
+
+    genericData.exix = +exix.toFixed(2);
+    genericData.exix2 = +exix2.toFixed(2);
+    genericData.exix2fi = +exix2fi.toFixed(2);
 
 }
     let modalClasses = {
@@ -83,7 +109,8 @@ const populateCandidatesArrayAndFindBiggestFrequency = () => {
             let actualClassData = {
                 class: actualClass,
                 f: actualClass.f,
-                index: klass
+                index: +klass
+                
             }
             modalClasses.classes.push(actualClassData); 
         }
@@ -132,21 +159,97 @@ const findModaFromCzuberLaw = () => {
     const isAbleToPerformThroughCzuber = checkCzuberSuitabilityAndAssignData();
 
     if (isAbleToPerformThroughCzuber) {
-        genericData.MoCzuber = modc.class.li + ((modc.d1/(modc.d1+modc.d2))*genericData.h);
+        genericData.MoCzuber = +(modc.class.li + ((modc.d1/(modc.d1+modc.d2))*genericData.h)).toFixed(2);
     
     }
 }
 
-const findModalClassFromFrequenciesTable = () => {
-    
+const findModalClassFromFrequenciesTable = () => { 
     populateCandidatesArrayAndFindBiggestFrequency()
     deleteLesserCandidatesFromCandidatesArray()
     populateModalClassesToMainObject()
     findModaFromCzuberLaw();
     genericData.Mo = (modClass[0].item.class.li+modClass[0].item.class.Li)/2;
+          //  i must redo this entire object lol
+    
+}
+
+//generic function to be used on the job of calculating quartis/decis/percentis
+findClassGivenPercentage = (times, percentage) => {
+    let frequencyResult = (times*genericData.n)/percentage, foundClass;
+    generalClassObj = {};
+    for (let klass in frequencies.i) {
+        let actualClass = frequencies.i[klass];
+
+        if (actualClass.F > frequencyResult) {
+            
+            foundClass = actualClass;
+            break;
+        }
+    }
+    generalClassObj.klass = foundClass;
+    generalClassObj.frequencyResult = frequencyResult;
+    
+    return generalClassObj;
+}
+// quartis,decis,percentil
+const findQuartisAndAssignResults = () => {
+
+    for (i=1;i<4;i++) {
+        quartisClass = findClassGivenPercentage(i, 4);
+        currentClassPosition = quartisClass.klass.i-1;
+        FAA = frequencies.i[currentClassPosition-1].F; // Fac anterior a classe atual
+        genericData.quartis.push(+(quartisClass.klass.li + (((quartisClass.frequencyResult-FAA)*genericData.h)/ quartisClass.klass.f)).toFixed(2));  
+
+    }
 
 }
-const findNFromFrequenciesTable = () => { 
+
+const findDecisAndAssignResults = () => {
+    for (i=1;i<10;i++) {
+        decisClass = findClassGivenPercentage(i, 10);
+        currentClassPosition = decisClass.klass.i-1;
+       // console.log(currentClassPosition )
+        console.log()
+        if (typeof frequencies.i[(currentClassPosition - 1)] === 'undefined') {
+            FAA = decisClass.klass.F;
+          
+        } else {
+            FAA = frequencies.i[currentClassPosition-1].F; // Fac anterior a classe atual
+        }
+        genericData.decis.push(+(decisClass.klass.li + (((decisClass.frequencyResult-FAA)*genericData.h)/ decisClass.klass.f)).toFixed(2));  
+
+    }
+}
+
+const findAnyPercentil = (percentage) => {
+    percentilClass = findClassGivenPercentage(percentage, 100);
+    currentClassPosition = percentilClass.klass.i-1;
+    if (typeof frequencies.i[(currentClassPosition - 1)] === 'undefined') {
+        FAA = percentilClass.klass.F;
+      
+    } else {
+        FAA = frequencies.i[currentClassPosition-1].F; // Fac anterior a classe atual
+    }
+
+    let percentilResult = percentilClass.klass.li + (((percentilClass.frequencyResult-FAA)*genericData.h)/ percentilClass.klass.f);
+    console.log(`O percentil ${percentage} é: ${percentilResult}`);
+    return percentilResult;
+
+}
+
+const calculateDesvioPadraoAndAssignResult = () => {
+    let desvioPadrao;
+    desvioPadrao = +Math.sqrt(genericData.exix2fi/(genericData.n-1)).toFixed(2);
+    genericData.s =desvioPadrao; // desvio padrao
+}
+
+const calculateVarianciaAndAssignResult = () => {
+    genericData.s2 = +(Math.pow(genericData.s, 2)).toFixed(2); // variancia = s2 (s^2)
+
+}
+
+const findNFromFrequenciesTable = () => { // n = total da amostra
     let n = 0;
     
     for (let klass in frequencies.i){ 
@@ -217,6 +320,7 @@ const feedFrequenciesTable = (matchesFromUserInput) => { // function to be used 
         const parts = item.split(' ').map(num => Number (num));
         frequencies.i[y] = { li: parts[0], Li: parts[1], f: parseInt(parts[2])};
         frequencies.i[y].x = findPontoMedioClasse();
+        
     });
 
 }
@@ -250,7 +354,7 @@ const findMedianClass = () => {
 const calculateMediana = () => {
     // Md = l* + [(- FAA ) x h*] / f*
     let mdc = medianClasses[0];
-    genericData.md = mdc.li + ((((genericData.n/2) - mdc.FAA ) * mdc.h)/ mdc.f);
+    genericData.md = +(mdc.li + ((((genericData.n/2) - mdc.FAA ) * mdc.h)/ mdc.f)).toFixed(1);
 
 } 
 
@@ -264,13 +368,60 @@ const findAmplitudeTotalAMostra = (sample) => {
     return AA;
 
 }
+const calculatePearsonVariation = () => {
+    genericData.cvp = +((genericData.s/genericData.xbar)*100).toFixed(2);
 
+}
+const calculateThorndikeVariation = () => {
+    genericData.cvt = (genericData.s/genericData.md) * 100;
+
+}
+const calculateAsimmetryMeasurement = () => {
+    genericData.As = +((3*(genericData.xbar - genericData.md))/genericData.s).toFixed(3);
+    
+}
+const defineAssimetria = () => {
+
+    const fixedValue = 0.15;
+    if (genericData.As < fixedValue ) {
+        genericData.assimetria = 'Assimetria pequena';
+    } else if (genericData.As < 1 && genericData.As > fixedValue) {
+        genericData.assimetria = 'Assimetria moderada';
+    } else if (genericData.As > 1) {
+        genericData.assimetria = 'Assimetria elevada';
+    } 
+    
+}
+const findCoeficienteCurtose = () => {
+    let p90 = findAnyPercentil(90);
+    let p10 = findAnyPercentil(10);
+    let c1 = +((genericData.quartis[2]-genericData.quartis[0])/(2*(p90-p10))).toFixed(3);
+    genericData.c1 = c1;
+
+    if ( c1 == 0.263 ) {
+        genericData.curva = 'mesocúrtica';
+    } else if ( c1 < 0.263 ) {
+        genericData.curva = 'leptocúrtica';
+    } else if ( c1 > 0.263 ) {
+        genericData.curva = 'platicúrtica';
+    }
+    
+}
 const computeInput = (userInput) => {
+
     feedInitialDataToFrequencies(userInput)
     feedGenericFrequencyDataToFrequencies();
     findModalClassFromFrequenciesTable();
+    findQuartisAndAssignResults();
+    calculateDesvioPadraoAndAssignResult();
+    findDecisAndAssignResults();
+    calculateVarianciaAndAssignResult();
+    calculatePearsonVariation();
+    //calculateThorndikeVariation();
     findMedianClass();
     calculateMediana();
+    calculateAsimmetryMeasurement();
+    defineAssimetria();
+    findCoeficienteCurtose();
 
 }
-

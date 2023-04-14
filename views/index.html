@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
+	<!--- 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
+ -->
 	<link rel="stylesheet" href="../static/css/styles.css">
 	<title>Estatistica</title>
 </head>
 <body>
+<div class="master-container">
 	<div class="general-container">
 		<div class="top center">
 			<div class="text-area">
@@ -26,57 +28,108 @@
 			<button type="button" class="input-button" id="input-button" onclick="computeSampleProvidedFromUserAndDisplayResults()">Enviar Dados</button>
 		</div>
 		<div class="middle center">
-			<div class="table-container ">
-			<div class="generic-stuff">
+			<div class="table-container hidden">
+			<div class="generic-stuff hidden" id="generic">
 			<table>	
 				<tr>
-				<th>Dados Genéricos</th>
+				<th>Dados</th>
 				<th>Valor</th>
 				</tr>
-				<tr id="totald">
+				<tr id="n">
 					<th>Total (n)</th>
 					
 				</tr>
-				<tr id="media">
-					<th>Media</th>
+				<tr id="xbar">
+					<th>Media (x̄)</th>
 				</tr>
-				<tr id="modaBruta">
-					<th>Moda (Mo)</th>
+				<tr id="Mo">
+					<th>Moda Bruta(Mo)</th>
 					
 				</tr>
-				<tr id="modaCzuber">
-					<th>Mediana </th>
+				<tr id="MoCzuber">
+					<th>Moda Czuber</th>
 					
 				</tr>
-				<tr id="mediana">
-					<th>Moda (Mo)</th>
+				<tr id="md">
+					<th>Mediana (md)</th>
 					
 				</tr>
 				<tr id="h">
-					<th>Amplitude de classe (Mo)</th>
+					<th>Amplitude de classe (h)</th>
+					
+				</tr>
+				<tr id="k">
+					<th>Numero de classes (k)</th>
+					
+				</tr>
+				<tr id="s">
+					<th>Desvio Padrão (S)</th>
+					
+				</tr>
+				<tr id="s2">
+					<th> Variancia (S2)</th>
+					
+				</tr>
+				<tr id="cvp">
+					<th>Coeficiente Variação Pearson (CVP) </th>
+					
+				</tr>
+				<tr id="As">
+					<th>Coeficiente de Assimetria (As)</th>
+					
+				</tr>
+				<tr id="assimetria">
+					<th>Escala de assimetria</th>
 					
 				</tr>
 			</table>
 			</div>
-			<div class="modal-area">
+		<div class="med-mod">
+			<div class="modal-area hidden" id="modal">
 				<table id="classe-modal">
 					<tr>
 						<th>Classe modal</th>
 						<th>Valores</th>
 					</tr>
+					<tr id="im">
+						<th>i</th>
+					</tr>
+					<tr id="d1">
+						<th>d1</th>
+					</tr>
+					<tr id="d2">
+						<th>d2</th>
+					</tr>
+					<tr id="FAAm">
+						<th>FAA</th>
+					</tr>
 				</table>
 			</div>
-			<div class="mediana-area">
+			<div class="mediana-area hidden" id="mediana" >
 				<table id="classe-mediana">
 					<tr>
 						<th>Classe mediana</th>
 						<th>Valores</th>
 					</tr>
+					<tr id="imd">
+						<th>i</th>
+					</tr>
+					<tr id="lmd">
+						<th>li</th>
+					</tr>
+					<tr id="Lmd">
+						<th>Li</th>
+					</tr>
+					<tr id="FAAmd">
+						<th>FAA</th>
+					</tr>
 				</table>
 			</div>
-			<div class="frequency-area">
+		</div>
+			<div class="frequency-area hidden" id="frequencies">
 				<table id="frequencias">
 					<tr>
+						<th id="i">i</th>
 						<th id="li">li</th>
 						<th id="Li">Li</th>
 						<th id="fi">fi</th>
@@ -84,6 +137,11 @@
 						<th id="fri">fri</th>
 						<th id="Fi">Fi</th>
 						<th id="Fri">Fri</th>
+						<th id="xifi">xi.fi</th>
+						<th id="xix">xi-x̄</th>
+						<th id="xix2">(xi-x̄)2</th>
+						<th id="xix2fi">(xi-x̄)2.fi</th>
+
 					</tr>
 
 				</table>
@@ -91,6 +149,7 @@
 		</div>
 		</div>
 	</div>
+</div>
 	<script src="../controllers/menu.js"></script>
 	<script src="../controllers/compute_input.js"></script>
 	<script src="../controllers/update_dom_tables.js"></script>

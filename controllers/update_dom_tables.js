@@ -1,6 +1,6 @@
 const feedFrequencyTable = () => {
 
-        const propertyOrder = ['li', 'Li', 'f', 'x', 'fr', 'F', 'Fr'];
+        const propertyOrder = ['i', 'li', 'Li', 'f', 'x', 'fr', 'F', 'Fr', 'xifi', 'xix', 'xix2', 'xix2fi'];
         const frequencies = computedDataFromSample.frequencies;
 
         for (let key in frequencies.i) {
@@ -32,6 +32,57 @@ const feedFrequencyTable = () => {
         }
      //  make a generic function that receives a property order, a pointing to some table and do the stuff
     
-    console.table(frequencies);
-    console.table({keys: Object.keys(frequencies.i), data: Object.values(frequencies.i)});
+}
+updateGenericElements = () => {
+
+  let order = ['n', 'xbar', 'Mo','MoCzuber', 'md', 'h', 'k', 's', 's2', 'cvp', 'As', 'assimetria' ]
+
+  order.forEach((property, i) => {
+      let currentRow = document.getElementById(order[i]);
+      let currentElement = document.createElement('td');
+      currentElement.textContent = genericData[order[i]];
+      currentRow.appendChild(currentElement);
+    })
+    
+}
+
+updateModalClassTable = () => {
+
+  let order = ['im', 'd1', 'd2', 'FAAm'];
+  let modalTempObj = {
+
+    im: modalClasses.classes[0].class.i,
+    d1: modalClasses.classes[0].d1,
+    d2: modalClasses.classes[0].d2,
+    FAAm: modalClasses.classes[0].class.FAA
+    
+  }
+  order.forEach((property, i) => {
+      let currentRow = document.getElementById(order[i]);
+      let currentElement = document.createElement('td');
+      currentElement.textContent = modalTempObj[order[i]];
+      currentRow.appendChild(currentElement);
+    })
+  
+
+}
+
+updateMedianClassTable = () => {
+  let order = ['imd', 'lmd', 'Lmd', 'FAAmd'];
+  let medianaTempObj = {
+
+    imd: medianClasses[0].i,
+    lmd: medianClasses[0].li,
+    Lmd: medianClasses[0].Li,
+    FAAmd: medianClasses[0].FAA
+    
+  }
+
+  order.forEach((property, i) => {
+    let currentRow = document.getElementById(order[i]);
+    let currentElement = document.createElement('td');
+    currentElement.textContent = medianaTempObj[order[i]];
+    currentRow.appendChild(currentElement);
+  })
+  
 }

@@ -14,6 +14,9 @@ const computeSampleProvidedFromUserAndDisplayResults = () => {
     let inputFromUser = getInputFromUser();
     computeInput(inputFromUser);
     feedFrequencyTable();
+    updateGenericElements();
+    updateModalClassTable();
+    updateMedianClassTable();
 }
 
 
