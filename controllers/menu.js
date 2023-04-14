@@ -4,6 +4,10 @@ let hasInputFromUser = false;
 let classesWithIntervalRegex = /(\d+)\s+(\d+)\s+(\d+)/g;
 let bruteSampleRegex = /(\d+(?:,\d+){1,})$/g
 
+window.addEventListener('load', () => {
+    drawApu();
+});
+
 const retrieveClickedButtonId = (event) => {
     if (event.target.tagName === 'BUTTON') {
         const buttonId = event.target.id;
@@ -69,6 +73,10 @@ const updateElementVisibiliy = (action, element) => {
     
 }
 
+const updateBgColors = () => {
+    document.getElementById('master').classList.remove('whitefade')
+    document.getElementById('general').classList.add('whitefade')
+}
 const evaluateInputFromUser = (userInput, selectedMode) => {
 
     switch (selectedMode) {
@@ -94,6 +102,8 @@ const getInputFromUser = () => {
         if (evaluateInputFromUser(inputFromUser, selectedMode)) {
 
             hasInputFromUser = true;
+            //remove color from master
+            updateBgColors();
             //hide input stuff
             updateElementVisibiliy('hide', 'input');
             updateElementVisibiliy('hide', 'input-button');
@@ -102,6 +112,8 @@ const getInputFromUser = () => {
             updateElementVisibiliy('show', 'modal')
             updateElementVisibiliy('show', 'mediana')
             updateElementVisibiliy('show', 'frequencies')
+            updateElementVisibiliy('show', 'decisdiv')
+            updateElementVisibiliy('show', 'quartisdiv')
             // show reset button
             updateElementVisibiliy('show', 'reset')
             console.log('user input was: '+ inputFromUser + '\n updating hasInputFromUser to '+ hasInputFromUser ); 
@@ -120,6 +132,11 @@ const getInputFromUser = () => {
 
 // send stuff 
 
+const drawApu = () => {
+    let randomNum = Math.floor(Math.random() * 6) + 1;
+    let apuDiv = document.getElementById('apu');
+    apuDiv.style.backgroundImage = `url('../static/img/${randomNum}.png')`;
+}
 
 // ignore
 resetHasInputFromUser = () => {

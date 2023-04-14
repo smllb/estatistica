@@ -7,8 +7,11 @@
 	<title>Estatistica</title>
 </head>
 <body>
-<div class="master-container">
-	<div class="general-container">
+<div class="img apu" id="apu"></div>
+
+
+<div class="master-container whitefade" id="master">
+	<div class="general-container" id="general">
 		<div class="top center">
 			<div class="text-area">
 				<h1>Calculadora de estatistica simples</h1>
@@ -24,8 +27,8 @@
 					</div>
 				</div>
 			</div>
-			<textarea id="input"  class="input-field" rows="6" cols="20">50 54 4 54 58 9 58 62 11 62 66 8 66 70 5 70 74 3</textarea>
-			<button type="button" class="input-button" id="input-button" onclick="computeSampleProvidedFromUserAndDisplayResults()">Enviar Dados</button>
+			<textarea id="input"  class="input-field" rows="6" cols="20">0 50 4 50 100 24 100 150 36 150 200 48 200 250 8 250 300 4</textarea>
+			<button type="button" class="input-button" id="input-button" onclick="computeSampleProvidedFromUserAndDisplayResults(), drawApu()">Enviar Dados</button>
 		</div>
 		<div class="middle center">
 			<div class="table-container hidden">
@@ -100,9 +103,6 @@
 					<tr id="d2">
 						<th>d2</th>
 					</tr>
-					<tr id="FAAm">
-						<th>FAA</th>
-					</tr>
 				</table>
 			</div>
 			<div class="mediana-area hidden" id="mediana" >
@@ -146,13 +146,43 @@
 
 				</table>
 			</div>
+			<div class="quartis hidden" id="quartisdiv" >
+				<table id="quartis">
+					<tr><th colspan="3">quartis</th></tr>
+					 <tr>
+						<th>q1</th>
+						<th>q2</th>
+						<th>q3</th>
+					</tr>
+					<tr id="quartis-values">
+
+					</tr>
+				</table>
+			</div>
+			<div class="decis hidden" id="decisdiv">
+				<table id="decis">
+					<tr><th colspan="9">decis</th></tr>
+					<tr>
+						<th>d1</th>
+						<th>d2</th>
+						<th>d3</th>
+						<th>d4</th>
+						<th>d5</th>
+						<th>d6</th>
+						<th>d7</th>
+						<th>d8</th>
+						<th>d9</th>
+					</tr>
+					<tr id="decis-values">
+
+					</tr>
+				</table>
+			</div>
 		</div>
 		</div>
 		<div class="reset" id="reset-area">
 			<button type="button" id="reset" class="hidden" onclick="location.reload()" >Reiniciar operação</button>
 		</div>
-		
-
 	</div>
 </div>
 	<script src="../controllers/menu.js"></script>

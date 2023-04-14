@@ -5,6 +5,7 @@ buttonsMenu.addEventListener('click', (event) => {
     if (!hasInputFromUser) {
         clickedButtonId = retrieveClickedButtonId(event);
         updateInputFieldSizeAndSelectedMode(clickedButtonId)
+        drawApu();
         console.log(event)
         
     }
@@ -18,6 +19,9 @@ const computeSampleProvidedFromUserAndDisplayResults = () => {
     updateGenericElements();
     updateModalClassTable();
     updateMedianClassTable();
+    updateQuartisTable();
+    updateDecisTable();
+
 }
 
 

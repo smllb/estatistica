@@ -48,14 +48,13 @@ updateGenericElements = () => {
 
 updateModalClassTable = () => {
 
-  let order = ['im', 'd1', 'd2', 'FAAm'];
+  let order = ['im', 'd1', 'd2'];
   let modalTempObj = {
 
     im: modalClasses.classes[0].class.i,
     d1: modalClasses.classes[0].d1,
     d2: modalClasses.classes[0].d2,
-    FAAm: modalClasses.classes[0].class.FAA
-    
+  
   }
   order.forEach((property, i) => {
       let currentRow = document.getElementById(order[i]);
@@ -85,4 +84,22 @@ updateMedianClassTable = () => {
     currentRow.appendChild(currentElement);
   })
   
+}
+
+updateQuartisTable = () => {
+  let quartisTable = document.getElementById('quartis');
+  genericData.quartis.forEach((quartil, i) => {
+    let currentQuartil = document.createElement('td');
+    currentQuartil.textContent = quartil;
+    quartisTable.appendChild(currentQuartil);
+  })
+}
+
+updateDecisTable = () => {
+  let decisTable = document.getElementById('decis');
+  genericData.decis.forEach((decil, i) => {
+    let currentDecil = document.createElement('td');
+    currentDecil.textContent = decil;
+    decisTable.appendChild(currentDecil);
+  })
 }

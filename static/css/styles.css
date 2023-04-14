@@ -1,6 +1,4 @@
-body {
- 
-}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,7 +13,9 @@ body {
     var(--_g),var(--_g) calc(var(--s)/2) calc(var(--s)/2),
     conic-gradient(#0f9177 25%,#fdebad 0 50%,#d34434 0 75%,#b5d999 0);
   background-size: var(--s) var(--s); 
-
+  overflow-x: hidden;
+  overflow-y: scroll;
+  
 }
 
 table {
@@ -36,9 +36,26 @@ th {
   font-weight: bold;
 }
 .master-container {
-  width: 100vw;
+  
   height: 100vh;
+  
+}
+.whitefade {
   background-color: #e2deded2;
+}
+
+.apu {
+  
+  background-image: url("../img/3.png");
+  background-repeat:no-repeat;
+  position: fixed;
+  bottom: 0;
+  right: 1;
+  width: 300px;
+  height: 200px;
+  background-position: center;
+  background-size: contain;
+
 }
   button {
     padding: 10px 20px;
@@ -126,11 +143,21 @@ th {
     align-items: center;
     justify-content: center;
     align-content: center;
+
   }
+    #classe-modal {
+    margin-right: 20px;
+  }
+  
+  #classe-mediana {
+    margin-left: 20px;
+  }
+
   .table-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+
   }
   .reset {
     display: flex;
