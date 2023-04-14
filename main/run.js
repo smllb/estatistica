@@ -1,3 +1,4 @@
+document.cookie = "name=value; SameSite=None; Secure"; 
 buttonsMenu.addEventListener('click', (event) => {
     let clickedButtonId;
     

@@ -102,6 +102,8 @@ const getInputFromUser = () => {
             updateElementVisibiliy('show', 'modal')
             updateElementVisibiliy('show', 'mediana')
             updateElementVisibiliy('show', 'frequencies')
+            // show reset button
+            updateElementVisibiliy('show', 'reset')
             console.log('user input was: '+ inputFromUser + '\n updating hasInputFromUser to '+ hasInputFromUser ); 
             displayMessageOnAnnouncer('Verifique os resultados abaixo.')
             return inputFromUser;
