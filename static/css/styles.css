@@ -57,6 +57,20 @@ th {
   background-size: contain;
 
 }
+@media (max-width: 1222px) {
+  .apu {
+  width: 150px;
+  height: 150px;
+
+  }
+}
+
+@media (max-width: 922px) {
+  .apu {
+    display: none;
+    }
+}
+
   button {
     padding: 10px 20px;
     background-color: #007bff;
