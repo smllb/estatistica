@@ -240,7 +240,7 @@ const findAnyPercentil = (percentage) => {
 
 const calculateDesvioPadraoAndAssignResult = () => {
     let desvioPadrao;
-    desvioPadrao = +Math.sqrt(genericData.exix2fi/(genericData.n-1)).toFixed(2);
+    desvioPadrao = +Math.sqrt(genericData.exix2fi/(genericData.n)).toFixed(2);
     genericData.s =desvioPadrao; // desvio padrao
 }
 
